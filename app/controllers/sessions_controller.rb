@@ -10,7 +10,7 @@ class SessionsController < ApplicationController
     if session_obj.authenticate?
       redirect_to posts_path, flash: { notice: 'Success' }
     else
-      redirect_to new_session_path, flash: { error: 'Invalid username / password' }
+      redirect_to new_session_path, flash: { error: 'Invalid credentials' }
     end
   end
 
