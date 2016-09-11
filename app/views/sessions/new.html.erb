@@ -1,6 +1,6 @@
 <h1>Login</h1>
 <div>
-  <%= form_for new_session do |f| %>
+  <%= form_for Session.new do |f| %>
     <%= f.label :username %>
     <%= f.text_field :username %>
     <%= f.label :password %>

@@ -8,6 +8,7 @@ feature 'User signs in' do
     fill_in 'Username', with: 'test@example.com'
     fill_in 'Password', with: 'password'
     click_on 'Login'
+
     expect(page).to have_content 'Success'
   end
 
@@ -34,21 +35,17 @@ feature 'User signs in' do
   end
 
   scenario 'with bad credentials 3 times gets locked out' do
-    pending('one at a time')
-    FactoryGirl.create(:user, email: 'test@example.com', password: 'password')
+    user = FactoryGirl.create(:user, email: 'test@example.com', password: 'password')
 
-    3.times do
+    4.times do
       visit login_path
       fill_in 'Username', with: 'test@example.com'
-      fill_in 'Password', with: 'password'
+      fill_in 'Password', with: 'notmypassword'
       click_on 'Login'
-      expect(page).to have_content 'Invalid credentials'
     end
 
-    visit login_path
-    fill_in 'Username', with: 'test@example.com'
-    fill_in 'Password', with: 'password'
-    click_on 'Login'
-    expect(page).to have_content 'Too many sign in attemps. Account locked out.'
+    expect(user.reload).to be_locked_out
+
+    expect(page).to have_content 'Account locked out. Please try again later.'
   end
 end

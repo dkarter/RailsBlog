@@ -21,4 +21,37 @@ describe User do
       expect(BCrypt::Password).to be_valid_hash(user.password_digest)
     end
   end
+
+  describe '#record_bad_login!' do
+    let(:user) { FactoryGirl.create(:user) }
+
+    it 'increments the bad login attempts count' do
+      expect do
+        user.record_bad_login!
+      end.to change { user.failed_login_attempts }.from(0).to(1)
+    end
+
+    it 'sets the account lock out timestamp to current time on 4th attempt' do
+      expect do
+        4.times { user.record_bad_login! }
+      end.to change { user.locked_out_timestamp }.from(nil).to(Date.today)
+    end
+  end
+
+  describe '#locked_out?' do
+    it 'returns false if locked_out_timestamp is not set' do
+      user = FactoryGirl.build(:user)
+      expect(user).to_not be_locked_out
+    end
+
+    it 'returns false if locked_out_timestamp is more than 1 day ago' do
+      user = FactoryGirl.build(:user, locked_out_timestamp: Date.today + 1.day)
+      expect(user).to_not be_locked_out
+    end
+
+    it 'returns true if locked_out_timestamp is less than 1 day ago' do
+      user = FactoryGirl.build(:user, locked_out_timestamp: Date.today)
+      expect(user).to be_locked_out
+    end
+  end
 end

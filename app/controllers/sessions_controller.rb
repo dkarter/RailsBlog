@@ -1,24 +1,25 @@
 class SessionsController < ApplicationController
-  helper_method :new_session
-
   def new
 
   end
 
   def create
     session_obj = Session.new(session_params)
-    if session_obj.authenticate?
+    user = session_obj.user
+
+    if user.try(:locked_out?)
+      err = 'Account locked out. Please try again later.'
+      redirect_to new_session_path, flash: { error: err }
+    elsif session_obj.authenticate?
+      user.reset_login_attempts!
       redirect_to posts_path, flash: { notice: 'Success' }
     else
+      user.try(:record_bad_login!)
       redirect_to new_session_path, flash: { error: 'Invalid credentials' }
     end
   end
 
   private
-
-    def new_session
-      Session.new
-    end
 
     def session_params
       params.require(:session).permit(:username, :password)

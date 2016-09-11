@@ -7,7 +7,10 @@ class Session
   )
 
   def authenticate?
-    user = User.find_by(email: username)
     user && user.valid_password?(password)
+  end
+
+  def user
+    @user ||= User.find_by(email: username)
   end
 end

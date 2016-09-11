@@ -4,5 +4,6 @@ FactoryGirl.define do
       "person#{n}@example.com"
     end
     sequence(:name) { |n| "user#{n}"  }
+    password 'password'
   end
 end
