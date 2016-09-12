@@ -44,7 +44,7 @@ describe User do
       expect(user).to_not be_locked_out
     end
 
-    it 'returns false if locked_out_timestamp is more than 1 day ago' do
+    it 'returns false if more than 1 day passed since locked out' do
       user = FactoryGirl.build(:user, locked_out_timestamp: Date.today + 1.day)
       expect(user).to_not be_locked_out
     end
