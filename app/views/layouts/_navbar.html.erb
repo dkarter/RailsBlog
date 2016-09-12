@@ -1,0 +1,23 @@
+<div class="row">
+  <nav>
+    <div class="nav-wrapper">
+      <div class="col s12">
+        <a href="#" class="brand-logo">Logo</a>
+        <a href="#" data-activates="mobile-demo" class="button-collapse">
+          <i class="material-icons">menu</i>
+        </a>
+        <ul class="right hide-on-med-and-down">
+          <li><%= link_to 'Posts', posts_path %></li>
+          <li><%= link_to 'Create a Post', new_post_path %></li>
+          <li><%= link_to 'Login', new_session_path %></li>
+        </ul>
+        <ul class="side-nav" id="mobile-demo">
+          <li><%= link_to 'Posts', posts_path %></li>
+          <li><%= link_to 'Create a Post', new_post_path %></li>
+          <li><%= link_to 'Login', new_session_path %></li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+</div>
+

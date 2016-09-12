@@ -6,21 +6,24 @@
 
     <%= stylesheet_link_tag    'application', media: 'all' %>
     <%= javascript_include_tag 'application' %>
+    <!--Import Google Icon Font-->
+    <link href="http://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <!--Import materialize.css-->
   </head>
 
   <body>
-    <% flash.each do |type, message| %>
-      <% if type == "toast" %>
-        <script>
-          $(function() {
-            Materialize.toast('<%= message %>', 3000);
-          });
-        </script>
-      <% else %>
-        <%
-          alert_class = type == "success" ? "alert-success" : ""
-          icon_class = type == "success" ? "icon-check" : "icon-notice"
-        %>
+    <%= render "layouts/navbar" %>
+    <div class="container">
+      <% flash.each do |type, message| %>
+        <% if type == "toast" %>
+          <script>
+            $(function() {
+              Materialize.toast('<%= message %>', 3000);
+            });
+          </script>
+        <% else %>
+          <% alert_class = type == "success" ? "alert-success" : ""
+          icon_class = type == "success" ? "icon-check" : "icon-notice" %>
         <div class="alert <%= alert_class %> alert-dismissable" role="alert">
           <button type="button" class="close" data-dismiss="alert" aria-label="Close">
             <span aria-hidden="true">&times;</span>
@@ -30,8 +33,7 @@
         </div>
       <% end %>
     <% end %>
-    <div class="container">
-      <%= yield %>
+    <%= yield %>
     </div>
   </body>
 </html>
