@@ -43,7 +43,7 @@ feature 'User signs in' do
     expect(page).to have_content 'Invalid credentials'
   end
 
-  scenario 'with bad credentials 3 times gets locked out', js: true do
+  scenario 'with bad credentials 3 times gets locked out' do
     user = FactoryGirl.create(:user, email: 'test1@example.com', password: 'password')
 
     4.times do
