@@ -1,6 +1,6 @@
 class SessionsController < ApplicationController
   def new
-
+    redirect_to dashboard_path if logged_in?
   end
 
   def create
@@ -11,6 +11,7 @@ class SessionsController < ApplicationController
       err = 'Account locked out. Please try again later.'
       redirect_to new_session_path, flash: { error: err }
     elsif session_obj.authenticate?
+      session[:user_id] = user.id
       user.reset_login_attempts!
       redirect_to posts_path, flash: { notice: 'Success' }
     else

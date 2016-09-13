@@ -45,3 +45,21 @@ feature 'User signs in' do
     expect(login_page).to have_locked_out_message
   end
 end
+
+feature 'User remains signed in' do
+  scenario 'when visiting root page (login) user is redirected to posts index' do
+    FactoryGirl.create(:user, email: 'test@example.com', password: 'password')
+
+    login_page = Pages::Login.new
+    login_page.visit_page
+    login_page.fill_and_submit(email: 'test@example.com', password: 'password')
+
+    expect(login_page).to have_success_message
+
+    posts_index = Pages::PostsIndex.new
+    expect(posts_index).to be_on_page
+
+    login_page.visit_page
+    expect(posts_index).to be_on_page
+  end
+end
