@@ -4,59 +4,44 @@ feature 'User signs in' do
   scenario 'with correct username and password' do
     FactoryGirl.create(:user, email: 'test@example.com', password: 'password')
 
-    visit login_path
+    login_page = Pages::Login.new
+    login_page.visit_page
+    login_page.fill_and_submit(email: 'test@example.com', password: 'password')
 
-    within 'form' do
-      fill_in 'Username', with: 'test@example.com'
-      fill_in 'Password', with: 'password'
-      click_on 'Login'
-    end
-
-    expect(page).to have_content 'Success'
+    expect(login_page).to have_success_message
   end
 
   scenario 'with wrong password is shown a message' do
     FactoryGirl.create(:user, email: 'test@example.com', password: 'password')
 
-    visit login_path
+    login_page = Pages::Login.new
+    login_page.visit_page
+    login_page.fill_and_submit(email: 'test@example.com', password: 'invalid')
 
-    within 'form' do
-      fill_in 'Username', with: 'test@example.com'
-      fill_in 'Password', with: 'xyz'
-      click_on 'Login'
-    end
-
-    expect(page).to have_content 'Invalid credentials'
+    expect(login_page).to have_invalid_credentials_message
   end
 
   scenario 'with wrong username is shown a message' do
     FactoryGirl.create(:user, email: 'test@example.com', password: 'password')
 
-    visit login_path
+    login_page = Pages::Login.new
+    login_page.visit_page
+    login_page.fill_and_submit(email: 'test1@example.com', password: 'password')
 
-    within 'form' do
-      fill_in 'Username', with: 'x@example.com'
-      fill_in 'Password', with: 'password'
-      click_on 'Login'
-    end
-
-    expect(page).to have_content 'Invalid credentials'
+    expect(login_page).to have_invalid_credentials_message
   end
 
   scenario 'with bad credentials 3 times gets locked out' do
     user = FactoryGirl.create(:user, email: 'test1@example.com', password: 'password')
 
-    4.times do
-      visit login_path
+    login_page = Pages::Login.new
 
-      within 'form' do
-        fill_in 'Username', with: 'test1@example.com'
-        fill_in 'Password', with: 'notmypassword'
-        click_on 'Login'
-      end
+    4.times do
+      login_page.visit_page
+      login_page.fill_and_submit(email: 'test1@example.com', password: 'xyz')
     end
 
     expect(user.reload).to be_locked_out
-    expect(page).to have_content 'Account locked out. Please try again later.'
+    expect(login_page).to have_locked_out_message
   end
 end

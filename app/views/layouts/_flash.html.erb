@@ -1,0 +1,21 @@
+<div class="flash">
+  <% flash.each do |type, message| %>
+    <% if type == "toast" %>
+      <script>
+        $(function() {
+          Materialize.toast('<%= message %>', 3000);
+        });
+      </script>
+    <% else %>
+      <% alert_class = type == "success" ? "alert-success" : ""
+      icon_class = type == "success" ? "icon-check" : "icon-notice" %>
+      <div class="alert <%= alert_class %> alert-dismissable" role="alert">
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+        <i class="<%= icon_class %>"></i>
+        <p><%= message.html_safe %></p>
+      </div>
+    <% end %>
+  <% end %>
+</div>
