@@ -9,7 +9,7 @@ class User < ApplicationRecord
 
   def locked_out?
     locked_out_timestamp.present? &&
-      locked_out_timestamp < 1.day.ago
+      (Date.today - locked_out_timestamp.to_date) <= 1
   end
 
   def record_bad_login!
