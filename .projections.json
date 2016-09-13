@@ -1,0 +1,14 @@
+{
+  "spec/support/pages/*.rb": {
+    "type": "page",
+    "template": [
+      "module Pages",
+      "  class {camelcase}",
+      "    include Capybara::DSL",
+      "    include Rails.application.routes.url_helpers",
+      "",
+      "  end",
+      "end"
+    ]
+  }
+}
