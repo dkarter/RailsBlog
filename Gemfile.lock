@@ -50,6 +50,9 @@ GEM
       rack (>= 1.0.0)
       rack-test (>= 0.5.4)
       xpath (~> 2.0)
+    capybara_error_intel (0.1.1)
+      capybara (~> 2)
+      rspec (~> 3.0)
     childprocess (0.5.9)
       ffi (~> 1.0, >= 1.0.11)
     coderay (1.1.1)
@@ -137,6 +140,10 @@ GEM
     rb-fsevent (0.9.7)
     rb-inotify (0.9.7)
       ffi (>= 0.5.0)
+    rspec (3.5.0)
+      rspec-core (~> 3.5.0)
+      rspec-expectations (~> 3.5.0)
+      rspec-mocks (~> 3.5.0)
     rspec-core (3.5.3)
       rspec-support (~> 3.5.0)
     rspec-expectations (3.5.0)
@@ -205,6 +212,7 @@ DEPENDENCIES
   bcrypt
   byebug
   capybara
+  capybara_error_intel
   database_cleaner
   factory_girl_rails
   jbuilder (~> 2.5)
